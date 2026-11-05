@@ -1,0 +1,29 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build game",
+            "type": "process",
+            "command": "/usr/bin/clang++",
+            "args": [
+                "-std=c++17",
+                "-g",
+                "${workspaceFolder}/Sources/src/main.cpp",
+                "-I/opt/homebrew/opt/raylib/include",
+                "-L/opt/homebrew/opt/raylib/lib",
+                "-lraylib",
+                "-Wl,-rpath,/opt/homebrew/opt/raylib/lib",
+                "-o",
+                "${workspaceFolder}/build/game"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": ["$gcc"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
