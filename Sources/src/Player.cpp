@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "raylib.h"
+#include <algorithm>
 
 // Player::Update : Player 클래스에 속한 Update 함수
 void Player::Update(float deltaTime)
@@ -64,13 +65,7 @@ void Player::Draw() const
     // DrawRectangle : 사각형을 그리는 함수
     // 인자 순서 : x좌표, y좌표, 너비, 높이, 색상
     // static_cast<int> : float형 위치 값을 int형으로 변환
-    DrawRectangle(
-        static_cast<int>(playerX),
-        static_cast<int>(playerY),
-        40,
-        60,
-        BLUE
-    );
+    DrawRectangle( static_cast<int>(playerX), static_cast<int>(playerY), 40, 60, BLUE);
 
     // 캐릭터가 바라보는 방향 쪽에 눈 표시
     // 조건 ? 값1 : 값2
@@ -79,4 +74,18 @@ void Player::Draw() const
                + (facingRight ? 28 : 4);
 
     DrawRectangle(eyeX, static_cast<int>(playerY) + 12, 8, 8, WHITE);
+}
+
+int Player::GetHP() const
+{
+    return hp;
+}
+
+void Player::TakeDamage(int amount){
+    if(amount <= 0) {
+        return ; // 피해량이 0 이하이면 무시
+    }
+
+    // 체력이 0 이하로 떨어지면 0 , 그렇지 않으면 hp = hp - amount
+    hp = std::max(0, hp - amount); 
 }

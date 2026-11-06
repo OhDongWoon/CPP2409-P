@@ -13,6 +13,12 @@ public:
     // const : 이 함수에서는 캐릭터의 데이터를 변경하지 않음
     void Draw() const;
 
+    // 체력 변수와 함수 선언
+    
+    int GetHP() const; // 현재 체력 반환
+    void TakeDamage(int amount); // 피해를 받아 일정 HP 감소
+
+
 private:
     // 캐릭터 위치와 속도
     float playerX = 100.0f; // 캐릭터의 x좌표
@@ -27,6 +33,10 @@ private:
 
     // true : 오른쪽, false : 왼쪽을 바라봄
     bool facingRight = true;
+
+    // 체력 변수
+    static constexpr int maxHP = 100 ; // 최대 체력
+    int hp = maxHP; // 시작할 때 현재 체력 = 최대 체력
 };
 
 #endif
