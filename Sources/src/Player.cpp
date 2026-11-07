@@ -1,10 +1,15 @@
 #include "Player.h"
 #include "raylib.h"
+#include "World.h"
 #include <algorithm>
 
 // Player::Update : Player 클래스에 속한 Update 함수
-void Player::Update(float deltaTime)
+void Player::Update(float deltaTime, const World& world)
 {
+    const float playerWidth = 40.0f;
+    const float playerHeight = 60.0f;
+    const float oldX = playerX; // 방향키 처리 전의 x좌표
+
     // 키 입력에 따른 위치 변경과 방향 전환
     // IsKeyDown : 키를 누르고 있는 동안 계속 true 반환
     if (IsKeyDown(KEY_RIGHT))
@@ -33,6 +38,8 @@ void Player::Update(float deltaTime)
         // 따라서 가장 오른쪽 x좌표는 960 - 40 = 920
         playerX = 920.0f;
     }
+    // 장애물 충돌
+    playerX = world.ResolvePlayerX(oldX, playerX, playerY, playerWidth, playerHeight);
 
     // 점프 구현
     // 바닥에 있을 때 Space를 누르면 점프
@@ -43,19 +50,25 @@ void Player::Update(float deltaTime)
         velocityY = jumpSpeed;
         onGround = false;
     }
+    
 
-    // 중력으로 속도를 바꾸고, 속도로 위치를 바꿈
-    // 화면 좌표에서는 아래쪽이 +이므로 중력을 더한다
+    // 이동하기 전의 발 위치를 기록한다.
+    float oldFeetY = playerY + playerHeight;
+
+    // 중력을 적용하고 이번 프레임의 위치를 계산한다.
     velocityY += gravity * deltaTime;
     playerY += velocityY * deltaTime;
 
-    // 발이 바닥에 닿으면 착지
-    // 바닥 y좌표 440 - 캐릭터 높이 60 = 380
-    if (playerY >= 380.0f)
-    {
-        playerY = 380.0f;
-        velocityY = 0.0f;
-        onGround = true;
+    float newFeetY = playerY + playerHeight;
+    float landingY = 0.0f;
+    onGround = false;
+
+    // 아래로 움직일 때만 착지를 검사한다.
+    if (velocityY >= 0.0f && world.FindLandingY(playerX, playerX + playerWidth, oldFeetY, newFeetY, landingY)) {
+    // 캐릭터의 발이 지형 윗면에 딱 맞도록 위치를 조정한다.
+    playerY = landingY - playerHeight;
+    velocityY = 0.0f;
+    onGround = true;
     }
 }
 

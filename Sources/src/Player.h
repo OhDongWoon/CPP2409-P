@@ -1,13 +1,13 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-// 같은 헤더 파일이 중복으로 포함되는 것을 방지
+class World;
 
 class Player
 {
 public:
     // 키 입력, 이동, 점프 등 캐릭터 상태 갱신
-    void Update(float deltaTime);
+    void Update(float deltaTime , const World& world);
 
     // 캐릭터 그리기
     // const : 이 함수에서는 캐릭터의 데이터를 변경하지 않음

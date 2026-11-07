@@ -1,5 +1,6 @@
 #include "raylib.h"
 #include "Player.h"
+#include "World.h"
 
 int main()
 {
@@ -12,7 +13,7 @@ int main()
     // Player 클래스로 실제 캐릭터 객체 생성
     // 게임 루프 밖에서 생성하여 위치와 상태를 계속 유지
     Player player;
-
+    World world;
     // 게임 루프 -> 창이 닫히기 전까지 계속 반복
     while (!WindowShouldClose())
     {
@@ -20,7 +21,7 @@ int main()
         float deltaTime = GetFrameTime();
 
         // 캐릭터의 키 입력, 이동, 점프 처리
-        player.Update(deltaTime);
+        player.Update(deltaTime , world);
 
         // 화면 그리기 시작
         BeginDrawing();
@@ -29,8 +30,9 @@ int main()
         ClearBackground(SKYBLUE);
 
         // 바닥
-        // 인자 순서 : x좌표, y좌표, 너비, 높이, 색상
-        DrawRectangle(0, 440, 960, 100, DARKGREEN);
+        // 변수 : x좌표, y좌표, 너비, 높이, 색상);
+        world.Draw();
+
 
         // 갱신된 위치에 캐릭터 그리기
         player.Draw();
