@@ -1,6 +1,8 @@
 #include "raylib.h"
 #include "Player.h"
 #include "World.h"
+#include "algorithm"
+
 
 int main()
 {
@@ -14,6 +16,9 @@ int main()
     // 게임 루프 밖에서 생성하여 위치와 상태를 계속 유지
     Player player;
     World world;
+    Camera2D camera{};
+    camera.zoom = 1.0f;
+
     // 게임 루프 -> 창이 닫히기 전까지 계속 반복
     while (!WindowShouldClose())
     {
@@ -22,20 +27,26 @@ int main()
 
         // 캐릭터의 키 입력, 이동, 점프 처리
         player.Update(deltaTime , world);
-
+        // 캐릭터의 가운데를 따라가되, 맵 양 끝에서 멈춘다.
+        const float screenWidth = static_cast<float>(GetScreenWidth());
+        camera.target.x = std::clamp(
+            player.GetX() + 20.0f - screenWidth / 2.0f,
+            0.0f,
+            World::width - screenWidth
+        );
         // 화면 그리기 시작
         BeginDrawing();
 
         // 이전 화면을 지우고 배경색 설정
         ClearBackground(SKYBLUE);
-
+        
+        BeginMode2D(camera);
         // 바닥
         // 변수 : x좌표, y좌표, 너비, 높이, 색상);
         world.Draw();
-
-
         // 갱신된 위치에 캐릭터 그리기
         player.Draw();
+        EndMode2D();
 
         // 제목 표시
         DrawText("My action game", 30, 30, 30, DARKGRAY);

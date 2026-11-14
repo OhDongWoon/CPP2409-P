@@ -32,11 +32,11 @@ void Player::Update(float deltaTime, const World& world)
         playerX = 0.0f;
     }
 
-    if (playerX > 920.0f)
+// 맵의 오른쪽 끝에서 캐릭터 너비만큼 뺀 위치가 이동 한계다.
+    const float maxX = World::width - playerWidth;
+    if (playerX > maxX)
     {
-        // 화면 너비 = 960, 캐릭터 너비 = 40
-        // 따라서 가장 오른쪽 x좌표는 960 - 40 = 920
-        playerX = 920.0f;
+        playerX = maxX;
     }
     // 장애물 충돌
     playerX = world.ResolvePlayerX(oldX, playerX, playerY, playerWidth, playerHeight);

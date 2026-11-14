@@ -18,6 +18,11 @@ public:
     int GetHP() const; // 현재 체력 반환
     void TakeDamage(int amount); // 피해를 받아 일정 HP 감소
 
+    // 캐릭터 이동 범위 확장
+    float GetX() const {
+        return playerX;
+    }
+
 
 private:
     // 캐릭터 위치와 속도
