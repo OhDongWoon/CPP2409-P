@@ -7,9 +7,10 @@ namespace // namespace{} : 이 안에서 만든 이름은 .cpp 파일 전용으�
     const Rectangle surfaces[] = {
         {220, 370, 150, 18}, // 첫 번째 발판
         {420, 310, 150, 18}, // 두 번째 발판
-        {0, 440, 960, 100},  // 바닥
-        {700, 380, 50, 60}, // 장애물
         {0, 440, World::width, 100}, // 바닥 (맵 크기를 확장하기 위함)
+        {700, 380, 50, 60}, // 회색 장애물
+        {1050, 375, 150, 18}, // 오른쪽 구간 첫 번째 발판
+        {1300, 375, 150, 18}, // 오른쪽 구간 두 번째 발판 : 처음에 1240이었는데 캐릭터와 겹쳐 떨어지지 않는 문제 발생 -> 1300으로 수정
     };
 }
 
@@ -18,7 +19,10 @@ void World::Draw() const
     DrawRectangleRec(surfaces[2], DARKGREEN); // 바닥
     DrawRectangleRec(surfaces[0], BROWN);     // 첫 번째 발판
     DrawRectangleRec(surfaces[1], BROWN);     // 두 번째 발판
+    DrawRectangleRec(surfaces[4], BROWN);     // 오른쪽 구간 첫 번째 발판
+    DrawRectangleRec(surfaces[5], BROWN);     // 오른쪽 구간 두 번째 발판
     DrawRectangleRec(surfaces[3], DARKGRAY); // 장애물
+
 }
 
 bool World::FindLandingY(float left, float right,
