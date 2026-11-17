@@ -1,6 +1,7 @@
 #include "raylib.h"
 #include "Player.h"
 #include "World.h"
+#include "Enemy.h"
 #include "algorithm"
 
 
@@ -16,6 +17,7 @@ int main()
     // 게임 루프 밖에서 생성하여 위치와 상태를 계속 유지
     Player player;
     World world;
+    Enemy enemy{1550.0f, 390.0f};
     Camera2D camera{};
     camera.zoom = 1.0f;
 
@@ -46,6 +48,8 @@ int main()
         world.Draw();
         // 갱신된 위치에 캐릭터 그리기
         player.Draw();
+        // 몬스터 그리기
+        enemy.Draw();
         EndMode2D();
 
         // 제목 표시

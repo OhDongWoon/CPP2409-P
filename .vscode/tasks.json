@@ -11,6 +11,7 @@
                 "${workspaceFolder}/Sources/src/main.cpp",
                 "${workspaceFolder}/Sources/src/Player.cpp",
                 "${workspaceFolder}/Sources/src/World.cpp",
+                "${workspaceFolder}/Sources/src/Enemy.cpp",
                 "-I/opt/homebrew/opt/raylib/include",
                 "-L/opt/homebrew/opt/raylib/lib",
                 "-lraylib",
