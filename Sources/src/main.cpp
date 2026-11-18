@@ -27,6 +27,9 @@ int main()
         // 이전 프레임부터 지난 시간 (단위 : 초)
         float deltaTime = GetFrameTime();
 
+        // 몬스터 움직임
+        enemy.Update(deltaTime);
+
         // 캐릭터의 키 입력, 이동, 점프 처리
         player.Update(deltaTime , world);
         // 캐릭터의 가운데를 따라가되, 맵 양 끝에서 멈춘다.

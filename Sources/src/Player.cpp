@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "raylib.h"
 #include "World.h"
+#include "Enemy.h"
 #include <algorithm>
 
 // Player::Update : Player 클래스에 속한 Update 함수
