@@ -4,7 +4,6 @@
 #include "Enemy.h"
 #include "algorithm"
 
-
 int main()
 {
     // 게임 창 만들기
@@ -30,21 +29,26 @@ int main()
         // 몬스터 움직임
         enemy.Update(deltaTime);
 
+        // 플레이어와 몬스터가 겹치면 접촉 피해를 요청한다.
+        if (CheckCollisionRecs(player.GetBounds(), enemy.GetBounds()))
+        {
+            player.TakeDamage(10);
+        }
+
         // 캐릭터의 키 입력, 이동, 점프 처리
-        player.Update(deltaTime , world);
+        player.Update(deltaTime, world);
         // 캐릭터의 가운데를 따라가되, 맵 양 끝에서 멈춘다.
         const float screenWidth = static_cast<float>(GetScreenWidth());
         camera.target.x = std::clamp(
             player.GetX() + 20.0f - screenWidth / 2.0f,
             0.0f,
-            World::width - screenWidth
-        );
+            World::width - screenWidth);
         // 화면 그리기 시작
         BeginDrawing();
 
         // 이전 화면을 지우고 배경색 설정
         ClearBackground(SKYBLUE);
-        
+
         BeginMode2D(camera);
         // 바닥
         // 변수 : x좌표, y좌표, 너비, 높이, 색상);

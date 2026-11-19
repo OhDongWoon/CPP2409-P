@@ -1,5 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+#include "raylib.h"
 
 class World;
 
@@ -17,6 +18,7 @@ public:
     
     int GetHP() const; // 현재 체력 반환
     void TakeDamage(int amount); // 피해를 받아 일정 HP 감소
+    Rectangle GetBounds() const ; // 플레이어와 몬스터가 닿았는 지 확인하기 위한 사각형
 
     // 캐릭터 이동 범위 확장
     float GetX() const {
@@ -42,6 +44,8 @@ private:
     // 체력 변수
     static constexpr int maxHP = 100 ; // 최대 체력
     int hp = maxHP; // 시작할 때 현재 체력 = 최대 체력
+
+    float invincibleTime = 0.0f ; // hp 감소 후 일정 시간동안은 닿아도 피해를 안입는 시간
 };
 
 #endif

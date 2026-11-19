@@ -7,6 +7,7 @@
 // Player::Update : Player 클래스에 속한 Update 함수
 void Player::Update(float deltaTime, const World& world)
 {
+    invincibleTime = std::max(0.0f, invincibleTime - deltaTime); // 남은 무적 시간을 줄이되 0 아래로 내려가지 않도록 한다
     const float playerWidth = 40.0f;
     const float playerHeight = 60.0f;
     const float oldX = playerX; // 방향키 처리 전의 x좌표
@@ -95,11 +96,20 @@ int Player::GetHP() const
     return hp;
 }
 
-void Player::TakeDamage(int amount){
-    if(amount <= 0) {
-        return ; // 피해량이 0 이하이면 무시
+void Player::TakeDamage(int amount)
+{
+    // 무적 시간이거나 체력이 0이면 추가 피해를 받지 않는다.
+    if (amount <= 0 || invincibleTime > 0.0f || hp <= 0)
+    {
+        return;
     }
 
-    // 체력이 0 이하로 떨어지면 0 , 그렇지 않으면 hp = hp - amount
-    hp = std::max(0, hp - amount); 
+    hp = std::max(0, hp - amount);
+    invincibleTime = 1.0f;
+}
+
+// 플레이어의 현재 위치와 크기를 사각형으로 묶어 돌려주는 역할
+Rectangle Player::GetBounds() const
+{
+    return {playerX, playerY, 40.0f, 60.0f};
 }

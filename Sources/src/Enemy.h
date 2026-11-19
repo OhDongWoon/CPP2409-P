@@ -1,5 +1,6 @@
 #ifndef ENEMY_H // ENEMY_H가 아직 정의되지 않았다면
 #define ENEMY_H // 이 헤더를 읽었다는 표시를 남긴다
+#include "raylib.h"
 
 class Enemy
 {
@@ -12,7 +13,9 @@ public:
 
     // 몬스터가 움직이기 위해 시간에 따라 위치가 바뀌게 하는 함수
     void Update(float deltaTime);
-
+    
+    // 플레이어 위치 반환
+    Rectangle GetBounds() const;
 private:
     // 위치 변수
     float x;

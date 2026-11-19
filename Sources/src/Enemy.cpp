@@ -38,3 +38,8 @@ void Enemy::Draw() const
         50,
         RED);
 }
+
+Rectangle Enemy::GetBounds() const
+{
+    return {x, y, 40.0f, 50.0f};
+}
