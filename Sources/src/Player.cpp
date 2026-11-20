@@ -5,7 +5,7 @@
 #include <algorithm>
 
 // Player::Update : Player 클래스에 속한 Update 함수
-void Player::Update(float deltaTime, const World& world)
+void Player::Update(float deltaTime, const World &world)
 {
     invincibleTime = std::max(0.0f, invincibleTime - deltaTime); // 남은 무적 시간을 줄이되 0 아래로 내려가지 않도록 한다
     const float playerWidth = 40.0f;
@@ -34,7 +34,7 @@ void Player::Update(float deltaTime, const World& world)
         playerX = 0.0f;
     }
 
-// 맵의 오른쪽 끝에서 캐릭터 너비만큼 뺀 위치가 이동 한계다.
+    // 맵의 오른쪽 끝에서 캐릭터 너비만큼 뺀 위치가 이동 한계다.
     const float maxX = World::width - playerWidth;
     if (playerX > maxX)
     {
@@ -52,25 +52,44 @@ void Player::Update(float deltaTime, const World& world)
         velocityY = jumpSpeed;
         onGround = false;
     }
-    
 
-    // 이동하기 전의 발 위치를 기록한다.
+    // 세로 이동 전의 머리와 발 위치를 기록한다.
+    float oldHeadY = playerY;
     float oldFeetY = playerY + playerHeight;
 
-    // 중력을 적용하고 이번 프레임의 위치를 계산한다.
+    // 중력을 적용하고 세로 위치를 변경한다.
     velocityY += gravity * deltaTime;
     playerY += velocityY * deltaTime;
 
-    float newFeetY = playerY + playerHeight;
-    float landingY = 0.0f;
     onGround = false;
 
-    // 아래로 움직일 때만 착지를 검사한다.
-    if (velocityY >= 0.0f && world.FindLandingY(playerX, playerX + playerWidth, oldFeetY, newFeetY, landingY)) {
-    // 캐릭터의 발이 지형 윗면에 딱 맞도록 위치를 조정한다.
-    playerY = landingY - playerHeight;
-    velocityY = 0.0f;
-    onGround = true;
+    if (velocityY < 0.0f)
+    {
+        // 위로 움직일 때는 머리와 지형 밑면의 충돌을 검사한다.
+        float ceilingY = 0.0f;
+
+        if (world.FindCeilingY(
+                playerX, playerX + playerWidth,
+                oldHeadY, playerY, ceilingY))
+        {
+            playerY = ceilingY;
+            velocityY = 0.0f;
+        }
+    }
+    else
+    {
+        // 내려올 때는 발과 지형 윗면의 충돌을 검사한다.
+        float newFeetY = playerY + playerHeight;
+        float landingY = 0.0f;
+
+        if (world.FindLandingY(
+                playerX, playerX + playerWidth,
+                oldFeetY, newFeetY, landingY))
+        {
+            playerY = landingY - playerHeight;
+            velocityY = 0.0f;
+            onGround = true;
+        }
     }
 }
 
@@ -80,13 +99,12 @@ void Player::Draw() const
     // DrawRectangle : 사각형을 그리는 함수
     // 인자 순서 : x좌표, y좌표, 너비, 높이, 색상
     // static_cast<int> : float형 위치 값을 int형으로 변환
-    DrawRectangle( static_cast<int>(playerX), static_cast<int>(playerY), 40, 60, BLUE);
+    DrawRectangle(static_cast<int>(playerX), static_cast<int>(playerY), 40, 60, BLUE);
 
     // 캐릭터가 바라보는 방향 쪽에 눈 표시
     // 조건 ? 값1 : 값2
     // facingRight가 true면 28, false면 4를 선택
-    int eyeX = static_cast<int>(playerX)
-               + (facingRight ? 28 : 4);
+    int eyeX = static_cast<int>(playerX) + (facingRight ? 28 : 4);
 
     DrawRectangle(eyeX, static_cast<int>(playerY) + 12, 8, 8, WHITE);
 }

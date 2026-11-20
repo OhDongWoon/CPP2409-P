@@ -5,12 +5,12 @@ namespace // namespace{} : 이 안에서 만든 이름은 .cpp 파일 전용으�
 {
     // x좌표, y좌표, 너비, 높이
     const Rectangle surfaces[] = {
-        {220, 370, 150, 18}, // 첫 번째 발판
+        {220, 340, 150, 18}, // 첫 번째 발판
         {420, 310, 150, 18}, // 두 번째 발판
         {0, 440, World::width, 100}, // 바닥 (맵 크기를 확장하기 위함)
         {700, 380, 50, 60}, // 회색 장애물
-        {1050, 375, 150, 18}, // 오른쪽 구간 첫 번째 발판
-        {1300, 375, 150, 18}, // 오른쪽 구간 두 번째 발판 : 처음에 1240이었는데 캐릭터와 겹쳐 떨어지지 않는 문제 발생 -> 1300으로 수정
+        {1050, 345, 150, 18}, // 오른쪽 구간 첫 번째 발판
+        {1300, 345, 150, 18}, // 오른쪽 구간 두 번째 발판 : 처음에 1240이었는데 캐릭터와 겹쳐 떨어지지 않는 문제 발생 -> 1300으로 수정
     };
 }
 
@@ -48,31 +48,67 @@ bool World::FindLandingY(float left, float right,
     return found;
 }
 
-// 옆면 충돌 함수
+// 바닥, 발판, 장애물의 옆면 충돌 처리
 float World::ResolvePlayerX(float oldX, float newX, float y,
                             float width, float height) const
 {
-    const Rectangle& obstacle = surfaces[3];
-    const float obstacleRight = obstacle.x + obstacle.width;
-    const float obstacleBottom = obstacle.y + obstacle.height;
+    float resolvedX = newX;
 
-    // 캐릭터가 장애물보다 위나 아래에 있으면 가로 이동을 허용한다.
-    if (y + height <= obstacle.y || y >= obstacleBottom)
+    for (const Rectangle& surface : surfaces)
     {
-        return newX;
+        const float surfaceRight = surface.x + surface.width;
+        const float surfaceBottom = surface.y + surface.height;
+
+        // 세로로 겹치지 않으면 이 지형의 옆면에는 부딪히지 않는다.
+        if (y + height <= surface.y || y >= surfaceBottom)
+        {
+            continue;
+        }
+
+        // 오른쪽으로 이동하다 지형의 왼쪽 면을 넘는 경우
+        if (oldX + width <= surface.x &&
+            resolvedX + width > surface.x)
+        {
+            resolvedX = surface.x - width;
+        }
+
+        // 왼쪽으로 이동하다 지형의 오른쪽 면을 넘는 경우
+        if (oldX >= surfaceRight && resolvedX < surfaceRight)
+        {
+            resolvedX = surfaceRight;
+        }
     }
 
-    // 오른쪽으로 이동하다 장애물 왼쪽 면을 넘으려는 경우
-    if (oldX + width <= obstacle.x && newX + width > obstacle.x)
+    return resolvedX;
+}
+
+
+// 밑면 충돌 함수
+bool World::FindCeilingY(float left, float right,
+                         float oldHeadY, float newHeadY,
+                         float& ceilingY) const
+{
+    bool found = false;
+
+    for (const Rectangle& surface : surfaces)
     {
-        return obstacle.x - width;
+        const float surfaceBottom = surface.y + surface.height;
+
+        bool overlapsX = right > surface.x &&
+                         left < surface.x + surface.width;
+
+        // 위로 이동하는 머리가 지형의 밑면에 닿거나 지나갔는지 검사
+        bool crossesBottom = oldHeadY >= surfaceBottom &&
+                             newHeadY <= surfaceBottom;
+
+        // 위로 가면서 가장 먼저 만나는 밑면을 선택
+        if (overlapsX && crossesBottom &&
+            (!found || surfaceBottom > ceilingY))
+        {
+            ceilingY = surfaceBottom;
+            found = true;
+        }
     }
 
-    // 왼쪽으로 이동하다 장애물 오른쪽 면을 넘으려는 경우
-    if (oldX >= obstacleRight && newX < obstacleRight)
-    {
-        return obstacleRight;
-    }
-
-    return newX;
+    return found;
 }

@@ -60,7 +60,7 @@ int main()
         EndMode2D();
 
         // 제목 표시
-        DrawText("My action game", 30, 30, 30, DARKGRAY);
+        DrawText("Side-scroller Game", 30, 30, 30, DARKGRAY);
 
         // 체력 표시
         DrawText(TextFormat("HP: %d", player.GetHP()), 30, 70, 24, DARKGRAY);

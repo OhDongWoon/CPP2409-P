@@ -11,6 +11,10 @@ public:
     // 장애물 옆면에 막히면 이동할 x좌표 조정
     float ResolvePlayerX(float oldX, float newX, float y, float width, float height) const;
 
+    // 발판 아래에서 접프를 하면 뚫리던 부분을 수정 -> 뚫리지 않게 수정
+    bool FindCeilingY(float left, float right, float oldHeadY, float newHeadY, float& ceilingY) const;
+
+
 
 
     // 캐릭터의 착지 판정 함수
