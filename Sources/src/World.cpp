@@ -7,7 +7,7 @@ namespace // namespace{} : 이 안에서 만든 이름은 .cpp 파일 전용으�
     const Rectangle surfaces[] = {
         {220, 340, 150, 18}, // 첫 번째 발판
         {420, 310, 150, 18}, // 두 번째 발판
-        {0, 440, World::width, 100}, // 바닥 (맵 크기를 확장하기 위함)
+        {0, 440, 1920, 100}, // 바닥 (맵 크기를 확장하기 위함)
         {700, 380, 50, 60}, // 회색 장애물
         {1050, 345, 150, 18}, // 오른쪽 구간 첫 번째 발판
         {1300, 345, 150, 18}, // 오른쪽 구간 두 번째 발판 : 처음에 1240이었는데 캐릭터와 겹쳐 떨어지지 않는 문제 발생 -> 1300으로 수정
@@ -111,4 +111,8 @@ bool World::FindCeilingY(float left, float right,
     }
 
     return found;
+}
+
+float World::GetWidth() const{
+    return surfaces[2].width;
 }

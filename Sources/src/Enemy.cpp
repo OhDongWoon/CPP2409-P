@@ -10,20 +10,22 @@ Enemy::Enemy(float x, float y)
 // 몬스터가 왼쪽 오른쪽으로 왔다갔다 움직임
 void Enemy::Update(float deltaTime)
 {
-    if (movingRight == true)
+    if (movingRight)
     {
-        x = x + moveSpeed * deltaTime;
-        if (x >= patroRight)
+        x += moveSpeed * deltaTime;
+        
+        if (x >= patrolRight)
         {
-            x = patroRight;
+            x = patrolRight;
             movingRight = false;
         }
     }
     else { // movingRight == flase
-        x = x - moveSpeed * deltaTime;
         
-        if (x <= patroLeft){
-            x = patroLeft;
+        x -= moveSpeed * deltaTime;
+        
+        if (x <= patrolLeft){
+            x = patrolLeft;
             movingRight = true;
         }
     }

@@ -1,16 +1,13 @@
 #include "Player.h"
 #include "raylib.h"
 #include "World.h"
-#include "Enemy.h"
 #include <algorithm>
 
 // Player::Update : Player 클래스에 속한 Update 함수
 void Player::Update(float deltaTime, const World &world)
 {
     invincibleTime = std::max(0.0f, invincibleTime - deltaTime); // 남은 무적 시간을 줄이되 0 아래로 내려가지 않도록 한다
-    const float playerWidth = 40.0f;
-    const float playerHeight = 60.0f;
-    const float oldX = playerX; // 방향키 처리 전의 x좌표
+    const float oldX = playerX;                                  // 방향키 처리 전의 x좌표
 
     // 키 입력에 따른 위치 변경과 방향 전환
     // IsKeyDown : 키를 누르고 있는 동안 계속 true 반환
@@ -35,7 +32,7 @@ void Player::Update(float deltaTime, const World &world)
     }
 
     // 맵의 오른쪽 끝에서 캐릭터 너비만큼 뺀 위치가 이동 한계다.
-    const float maxX = World::width - playerWidth;
+    const float maxX = world.GetWidth() - playerWidth;
     if (playerX > maxX)
     {
         playerX = maxX;
@@ -99,7 +96,12 @@ void Player::Draw() const
     // DrawRectangle : 사각형을 그리는 함수
     // 인자 순서 : x좌표, y좌표, 너비, 높이, 색상
     // static_cast<int> : float형 위치 값을 int형으로 변환
-    DrawRectangle(static_cast<int>(playerX), static_cast<int>(playerY), 40, 60, BLUE);
+    DrawRectangle(
+        static_cast<int>(playerX),
+        static_cast<int>(playerY),
+        static_cast<int>(playerWidth),
+        static_cast<int>(playerHeight),
+        BLUE);
 
     // 캐릭터가 바라보는 방향 쪽에 눈 표시
     // 조건 ? 값1 : 값2
@@ -129,5 +131,5 @@ void Player::TakeDamage(int amount)
 // 플레이어의 현재 위치와 크기를 사각형으로 묶어 돌려주는 역할
 Rectangle Player::GetBounds() const
 {
-    return {playerX, playerY, 40.0f, 60.0f};
+    return {playerX, playerY, playerWidth, playerHeight};
 }

@@ -27,6 +27,10 @@ public:
 
 
 private:
+    // 플레이어의 너비와 높이
+    const float playerWidth = 40.0f;
+    const float playerHeight = 60.0f;
+
     // 캐릭터 위치와 속도
     float playerX = 100.0f; // 캐릭터의 x좌표
     const float playerSpeed = 300.0f; // 1초에 이동할 캐릭터의 거리
@@ -35,14 +39,14 @@ private:
     float playerY = 380.0f; // 캐릭터 세로 위치
     float velocityY = 0.0f; // 현재 세로 속도
     const float gravity = 1200.0f; // 아래로 속도를 증가시키는 중력
-    const float jumpSpeed = -500.0f; // 점프할 때의 초기 속도
+    const float jumpSpeed = -550.0f; // 점프할 때의 초기 속도
     bool onGround = true; // 바닥에 있는지 여부
 
     // true : 오른쪽, false : 왼쪽을 바라봄
     bool facingRight = true;
 
     // 체력 변수
-    static constexpr int maxHP = 100 ; // 최대 체력
+    const int maxHP = 100; // 최대 체력
     int hp = maxHP; // 시작할 때 현재 체력 = 최대 체력
 
     float invincibleTime = 0.0f ; // hp 감소 후 일정 시간동안은 닿아도 피해를 안입는 시간

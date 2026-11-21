@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "World.h"
 #include "Enemy.h"
-#include "algorithm"
+#include <algorithm>
 
 int main()
 {
@@ -42,7 +42,7 @@ int main()
         camera.target.x = std::clamp(
             player.GetX() + 20.0f - screenWidth / 2.0f,
             0.0f,
-            World::width - screenWidth);
+            world.GetWidth() - screenWidth);
         // 화면 그리기 시작
         BeginDrawing();
 

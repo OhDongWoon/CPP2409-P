@@ -14,7 +14,7 @@ public:
     // 몬스터가 움직이기 위해 시간에 따라 위치가 바뀌게 하는 함수
     void Update(float deltaTime);
     
-    // 플레이어 위치 반환
+    // 몬스터 충돌 판정용 사각형 반환
     Rectangle GetBounds() const;
 private:
     // 위치 변수
@@ -23,8 +23,8 @@ private:
     // 몬스터 움직임 변수
     float moveSpeed = 100.0f ; // 초당 이동 거리
     // 몬스터가 왔다갔다 하는 위치의 범위
-    float patroLeft = 1450.0f ; // 왼쪽 끝에서의 몬스터의 x 좌표
-    float patroRight = 1750.0f ; // 오른쪽 끝에서의 몬스터의 x 좌표
+    float patrolLeft = 1450.0f ; // 왼쪽 끝에서의 몬스터의 x 좌표
+    float patrolRight = 1750.0f ; // 오른쪽 끝에서의 몬스터의 x 좌표
     bool movingRight = true ; // true이면 오른쪽으로 이동
 };  
 

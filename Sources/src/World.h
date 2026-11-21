@@ -4,7 +4,7 @@
 class World
 {
 public:
-    static constexpr float width = 1920.0f;
+    float GetWidth() const;
     // 바닥, 발판, 장애물을 화면에 그리는 함수
     void Draw() const;
 
