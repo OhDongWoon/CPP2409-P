@@ -26,6 +26,9 @@ private:
     float patrolLeft = 1450.0f ; // 왼쪽 끝에서의 몬스터의 x 좌표
     float patrolRight = 1750.0f ; // 오른쪽 끝에서의 몬스터의 x 좌표
     bool movingRight = true ; // true이면 오른쪽으로 이동
+    // 몬스터의 너비와 높이
+    const float enemyWidth = 40.0f;
+    const float enemyHeight = 50.0f;
 };  
 
 #endif // 조건의 끝
