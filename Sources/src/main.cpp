@@ -9,14 +9,22 @@ int main()
     // 게임 창 만들기
     InitWindow(960, 540, "CPP2409-P");
 
-    // 목표 FPS 설정 -> 1초에 화면을 60번 갱신하는 것을 목표로 함
+    // 목표 FPS 설정
     SetTargetFPS(60);
 
     // Player 클래스로 실제 캐릭터 객체 생성
     // 게임 루프 밖에서 생성하여 위치와 상태를 계속 유지
     Player player;
     World world;
-    Enemy enemy{1550.0f, 390.0f};
+    // 몬스터 4마리 생성
+    Enemy enemies[] = {
+        {650.0f, 390.0f, 600.0f, 660.0f},
+        {950.0f, 390.0f, 850.0f, 980.0f},
+        {1550.0f, 390.0f, 1450.0f, 1600.0f},
+        {1800.0f, 390.0f, 1680.0f, 1860.0f}
+    };
+    const int enemyCount = 4 ; 
+
     Camera2D camera{};
     camera.zoom = 1.0f;
 
@@ -27,12 +35,12 @@ int main()
         float deltaTime = GetFrameTime();
 
         // 몬스터 움직임
-        enemy.Update(deltaTime);
+        for (int i = 0 ; i < enemyCount; i++){
+            enemies[i].Update(deltaTime);
 
-        // 플레이어와 몬스터가 겹치면 접촉 피해를 요청한다.
-        if (CheckCollisionRecs(player.GetBounds(), enemy.GetBounds()))
-        {
-            player.TakeDamage(10);
+            if(CheckCollisionRecs(player.GetBounds(), enemies[i].GetBounds())){
+                player.TakeDamage(10);
+            }
         }
 
         // 캐릭터의 키 입력, 이동, 점프 처리
@@ -56,7 +64,9 @@ int main()
         // 갱신된 위치에 캐릭터 그리기
         player.Draw();
         // 몬스터 그리기
-        enemy.Draw();
+        for(int i = 0 ; i < enemyCount ; i++){
+            enemies[i].Draw();
+        }
         EndMode2D();
 
         // 제목 표시

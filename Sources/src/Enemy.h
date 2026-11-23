@@ -6,7 +6,7 @@ class Enemy
 {
 public:
     // 몬스터를 생성할 때 시작 위치
-    Enemy(float x, float y);
+    Enemy(float x, float y, float left, float right);
 
     // 현재 위치에 몬스터를 그리기
     void Draw() const;
@@ -23,8 +23,8 @@ private:
     // 몬스터 움직임 변수
     float moveSpeed = 100.0f ; // 초당 이동 거리
     // 몬스터가 왔다갔다 하는 위치의 범위
-    float patrolLeft = 1450.0f ; // 왼쪽 끝에서의 몬스터의 x 좌표
-    float patrolRight = 1750.0f ; // 오른쪽 끝에서의 몬스터의 x 좌표
+    float patrolLeft ;
+    float patrolRight ;
     bool movingRight = true ; // true이면 오른쪽으로 이동
     // 몬스터의 너비와 높이
     const float enemyWidth = 40.0f;

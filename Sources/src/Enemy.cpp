@@ -1,10 +1,13 @@
 #include "Enemy.h"
 #include "raylib.h"
 
-Enemy::Enemy(float x, float y)
+Enemy::Enemy(float x, float y, float left, float right)
 {
     this->x = x;
     this->y = y;
+
+    patrolLeft = left;
+    patrolRight = right;
 }
 
 // 몬스터가 왼쪽 오른쪽으로 왔다갔다 움직임
