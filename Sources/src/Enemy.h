@@ -6,7 +6,7 @@ class Enemy
 {
 public:
     // 몬스터를 생성할 때 시작 위치
-    Enemy(float x, float y, float left, float right);
+    Enemy(float x, float y, float left, float right , bool strong); // strong : 강화 몬스터
 
     // 현재 위치에 몬스터를 그리기
     void Draw() const;
@@ -29,6 +29,8 @@ private:
     // 몬스터의 너비와 높이
     const float enemyWidth = 40.0f;
     const float enemyHeight = 50.0f;
+    // 강화 몬스터
+    bool strong ; 
 };  
 
 #endif // 조건의 끝
