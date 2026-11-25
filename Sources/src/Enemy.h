@@ -16,6 +16,9 @@ public:
     
     // 몬스터 충돌 판정용 사각형 반환
     Rectangle GetBounds() const;
+
+    // 몬스터별 데미지
+    int GetContactDamage() const ; 
 private:
     // 위치 변수
     float x;

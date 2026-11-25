@@ -54,3 +54,10 @@ Rectangle Enemy::GetBounds() const
 {
     return {x, y, enemyWidth, enemyHeight};
 }
+
+int Enemy::GetContactDamage() const {
+    if (strong) {
+        return 20 ; 
+    }
+    return 10 ; 
+}

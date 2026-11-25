@@ -39,7 +39,7 @@ int main()
             enemies[i].Update(deltaTime);
 
             if(CheckCollisionRecs(player.GetBounds(), enemies[i].GetBounds())){
-                player.TakeDamage(10);
+                player.TakeDamage(enemies[i].GetContactDamage());
             }
         }
 
